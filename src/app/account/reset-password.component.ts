@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
@@ -28,7 +29,9 @@ export class ResetPasswordComponent implements OnInit {
         private router: Router,
         private location: Location,
         private accountService: AccountService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private ngZone: NgZone,
+        private cdr: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
@@ -55,12 +58,18 @@ export class ResetPasswordComponent implements OnInit {
             .pipe(first())
             .subscribe({
                 next: () => {
-                    this.token = token;
-                    this.tokenStatus = TokenStatus.Valid;
+                    this.ngZone.run(() => {
+                        this.token = token;
+                        this.tokenStatus = TokenStatus.Valid;
+                        this.cdr.detectChanges();
+                    });
                 },
                 error: error => {
                     console.error('validateResetToken failed:', error);
-                    this.tokenStatus = TokenStatus.Invalid;
+                    this.ngZone.run(() => {
+                        this.tokenStatus = TokenStatus.Invalid;
+                        this.cdr.detectChanges();
+                    });
                 }
             });
     }
