@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://angular21-auth-boilerplate-backend.onrender.com'
+    apiUrl: 'https://angular-boiler-plate-21-backend.onrender.com'
 };
