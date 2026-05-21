@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    apiUrl: 'http://localhost:4000'
+    apiUrl: 'https://angular-boiler-plate-21-backend.onrender.com'
 };
 
 /*
